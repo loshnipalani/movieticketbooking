@@ -1,0 +1,3273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MovieBook - Movie Ticket Booking</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #f4f4f8;
+            color: #222;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: linear-gradient(90deg, #12002f, #e50914);
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        .logo span {
+            color: #ffd700;
+        }
+
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 430px;
+
+            background:
+                    linear-gradient(
+                            rgba(10, 0, 30, 0.65),
+                            rgba(10, 0, 30, 0.75)
+                    ),
+                    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1600&q=80");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+
+            padding: 60px 7%;
+
+            color: white;
+        }
+
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+
+        .hero h1 {
+            font-size: 55px;
+            margin-bottom: 20px;
+        }
+
+
+        .hero h1 span {
+            color: #ffcc00;
+        }
+
+
+        .hero p {
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+
+        .hero-button {
+            margin-top: 25px;
+            padding: 14px 30px;
+            background: #e50914;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1300px;
+            margin: 40px auto;
+        }
+
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+        .section-title h2 {
+            font-size: 32px;
+            color: #2c0057;
+        }
+
+
+        .section-title p {
+            color: #777;
+            margin-top: 8px;
+        }
+
+
+        /* ================= MOVIES ================= */
+
+        .movies {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 25px;
+        }
+
+
+        .movie-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow:
+                    0 5px 18px rgba(0,0,0,0.15);
+
+            transition: 0.3s;
+
+            cursor: pointer;
+        }
+
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow:
+                    0 10px 25px rgba(0,0,0,0.25);
+        }
+
+
+        .movie-card.selected {
+            border: 4px solid #e50914;
+        }
+
+
+        .movie-poster {
+            height: 300px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+
+        .movie-info {
+            padding: 18px;
+        }
+
+
+        .movie-info h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+
+        .movie-info p {
+            color: #666;
+            margin: 6px 0;
+        }
+
+
+        .language {
+            display: inline-block;
+
+            background: #ffcc00;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .book-movie-btn {
+            width: 100%;
+
+            margin-top: 12px;
+
+            padding: 10px;
+
+            background: #e50914;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= BOOKING AREA ================= */
+
+        #bookingArea {
+            display: none;
+
+            margin-top: 50px;
+        }
+
+
+        .booking-box {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                    0 5px 20px rgba(0,0,0,0.12);
+        }
+
+
+        .booking-box h2 {
+            color: #e50914;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+
+        /* ================= SELECTED MOVIE ================= */
+
+        .selected-movie-box {
+            background:
+                    linear-gradient(
+                            90deg,
+                            #fff0f0,
+                            #f3e8ff
+                    );
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .selected-movie-box h3 {
+            color: #e50914;
+        }
+
+
+        /* ================= SEATS ================= */
+
+        .seat-section {
+            margin-top: 30px;
+        }
+
+
+        .screen {
+            width: 80%;
+
+            height: 45px;
+
+            margin: 20px auto 35px;
+
+            background: linear-gradient(
+                    #555,
+                    #ddd
+            );
+
+            border-radius: 50% 50% 5px 5px;
+
+            text-align: center;
+
+            padding: 12px;
+
+            font-weight: bold;
+
+            color: #222;
+        }
+
+
+        .seat-layout {
+            max-width: 700px;
+
+            margin: auto;
+        }
+
+
+        .seat-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin: 10px 0;
+
+            justify-content: center;
+        }
+
+
+        .row-name {
+            width: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .seat {
+            width: 42px;
+
+            height: 38px;
+
+            border-radius: 7px 7px 3px 3px;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            background: #43d17a;
+
+            color: white;
+        }
+
+
+        .seat:hover {
+            transform: scale(1.08);
+        }
+
+
+        .seat.booked {
+            background: #e50914;
+
+            cursor: not-allowed;
+
+            opacity: 0.7;
+        }
+
+
+        .seat.selected {
+            background: #ffcc00;
+
+            color: #222;
+        }
+
+
+        .seat-gap {
+            width: 20px;
+        }
+
+
+        /* ================= SEAT LEGEND ================= */
+
+        .seat-legend {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 25px;
+
+            margin: 25px 0;
+        }
+
+
+        .legend-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .legend-box {
+            width: 20px;
+
+            height: 20px;
+
+            border-radius: 4px;
+        }
+
+
+        .available-box {
+            background: #43d17a;
+        }
+
+
+        .selected-box {
+            background: #ffcc00;
+        }
+
+
+        .booked-box {
+            background: #e50914;
+        }
+
+
+        /* ================= PRICE ================= */
+
+        .price-box {
+            background: #111;
+
+            color: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            max-width: 450px;
+
+            margin: 25px auto;
+        }
+
+
+        .price-line {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin: 10px 0;
+        }
+
+
+        .total-price {
+            color: #ffcc00;
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= CUSTOMER ================= */
+
+        .customer-section {
+            margin-top: 35px;
+
+            padding: 25px;
+
+            background: #f8f4ff;
+
+            border-radius: 12px;
+        }
+
+
+        .customer-section h3 {
+            color: #5b0099;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ================= BUTTON ================= */
+
+        .continue-button {
+            display: block;
+
+            margin: 30px auto;
+
+            padding: 15px 45px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #e50914,
+                            #ff5a00
+                    );
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .continue-button:hover {
+            transform: scale(1.03);
+        }
+
+
+        /* ================= PAYMENT ================= */
+
+        #paymentSection {
+            display: none;
+
+            margin-top: 40px;
+        }
+
+
+        .payment-section {
+            background:
+                    linear-gradient(
+                            135deg,
+                            #ffffff,
+                            #f4eaff
+                    );
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                    0 5px 20px rgba(0,0,0,0.15);
+        }
+
+
+        .payment-section > h2 {
+            text-align: center;
+
+            font-size: 32px;
+
+            color: #39005e;
+
+            margin-bottom: 30px;
+        }
+
+
+        .payment-container {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr;
+
+            gap: 30px;
+        }
+
+
+        .payment-methods {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                    0 3px 10px rgba(0,0,0,0.1);
+        }
+
+
+        .payment-methods h3 {
+            margin-bottom: 20px;
+        }
+
+
+        .payment-options {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .payment-option {
+            padding: 14px 8px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            background: white;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        .payment-option:hover {
+            border-color: #e50914;
+        }
+
+
+        .payment-option.active {
+            background: #e50914;
+
+            color: white;
+
+            border-color: #e50914;
+        }
+
+
+        .payment-form label {
+            display: block;
+
+            margin-top: 15px;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+        }
+
+
+        .payment-form input,
+        .payment-form select {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+
+        .payment-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+        }
+
+
+        /* ================= SUMMARY ================= */
+
+        .payment-summary {
+            background: #111;
+
+            color: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+        }
+
+
+        .payment-summary h3 {
+            color: #ffcc00;
+
+            margin-bottom: 25px;
+        }
+
+
+        .summary-line {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin: 18px 0;
+
+            gap: 15px;
+        }
+
+
+        .summary-line strong {
+            text-align: right;
+        }
+
+
+        .summary-line.total {
+            font-size: 22px;
+
+            color: #ffcc00;
+        }
+
+
+        .pay-button {
+            width: 100%;
+
+            padding: 16px;
+
+            margin-top: 20px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background:
+                    linear-gradient(
+                            90deg,
+                            #e50914,
+                            #ff5a00
+                    );
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        /* ================= SUCCESS ================= */
+
+        #paymentSuccess {
+            display: none;
+
+            margin-top: 30px;
+
+            padding: 35px;
+
+            background: #e9fff0;
+
+            border: 2px solid #2ecc71;
+
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+
+        .success-icon {
+            width: 70px;
+
+            height: 70px;
+
+            margin: auto;
+
+            background: #2ecc71;
+
+            color: white;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 40px;
+
+            font-weight: bold;
+        }
+
+
+        #paymentSuccess h2 {
+            color: #198754;
+
+            margin: 15px 0;
+        }
+
+
+        .success-ticket {
+            background: white;
+
+            max-width: 550px;
+
+            margin: 20px auto 0;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            text-align: left;
+
+            box-shadow:
+                    0 3px 10px rgba(0,0,0,0.1);
+        }
+
+
+        .success-ticket p {
+            margin: 13px 0;
+        }
+
+
+        .paid {
+            color: #198754;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #12002f;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 30px;
+
+            margin-top: 60px;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+
+
+            .payment-options {
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+            .seat {
+                width: 32px;
+
+                height: 32px;
+
+                font-size: 11px;
+            }
+
+
+            .seat-gap {
+                width: 5px;
+            }
+
+
+            .screen {
+                width: 95%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+        🎬 Movie<span>Book</span>
+    </div>
+
+
+    <nav>
+
+        <a href="#movies">
+            Movies
+        </a>
+
+        <a href="#bookingArea">
+            Booking
+        </a>
+
+        <a href="#paymentSection">
+            Payment
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Book Your
+            <span>Movie Tickets</span>
+        </h1>
+
+        <p>
+            Watch your favourite Tamil and English movies
+            on the big screen. Choose your movie, theatre,
+            seat and payment method.
+        </p>
+
+        <button
+                class="hero-button"
+                onclick="scrollToMovies()">
+
+            🎟️ Book Now
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= MOVIES ================= -->
+
+<div class="container"
+     id="movies">
+
+    <div class="section-title">
+
+        <h2>
+            🎬 Now Showing
+        </h2>
+
+        <p>
+            Choose your favourite movie
+        </p>
+
+    </div>
+
+
+    <div class="movies"
+         id="movieContainer">
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= BOOKING ================= -->
+
+<div class="container"
+     id="bookingArea">
+
+    <div class="booking-box">
+
+        <h2>
+            🎟️ Book Your Ticket
+        </h2>
+
+
+        <!-- SELECTED MOVIE -->
+
+        <div class="selected-movie-box">
+
+            <h3>
+                Selected Movie
+            </h3>
+
+            <p id="selectedMovieName">
+                Please select a movie
+            </p>
+
+            <p id="selectedMovieDetails">
+                -
+            </p>
+
+        </div>
+
+
+
+        <!-- BOOKING DETAILS -->
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    Theatre
+                </label>
+
+                <select id="theatreSelect"
+                        onchange="changeTheatre()">
+
+                    <option value="">
+                        Select Theatre
+                    </option>
+
+                    <option value="TH01">
+                        PVR Grand Chennai
+                    </option>
+
+                    <option value="TH02">
+                        INOX Central Madurai
+                    </option>
+
+                    <option value="TH03">
+                        City Cinemas Coimbatore
+                    </option>
+
+                    <option value="TH04">
+                        AGS Cinemas Chennai
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Screen
+                </label>
+
+                <select id="screenSelect">
+
+                    <option value="">
+                        Select Screen
+                    </option>
+
+                    <option value="SC01">
+                        Screen 1
+                    </option>
+
+                    <option value="SC02">
+                        Screen 2
+                    </option>
+
+                    <option value="SC03">
+                        Screen 3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Show Date
+                </label>
+
+                <input
+                        type="date"
+                        id="showDate">
+
+            </div>
+
+
+
+            <div class="form-group">
+
+                <label>
+                    Show Time
+                </label>
+
+                <select id="showTime">
+
+                    <option value="">
+                        Select Show Time
+                    </option>
+
+                    <option value="10:00">
+                        10:00 AM
+                    </option>
+
+                    <option value="13:30">
+                        01:30 PM
+                    </option>
+
+                    <option value="16:30">
+                        04:30 PM
+                    </option>
+
+                    <option value="19:00">
+                        07:00 PM
+                    </option>
+
+                    <option value="22:00">
+                        10:00 PM
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= SEATS ================= -->
+
+        <div class="seat-section">
+
+            <h3>
+                💺 Select Your Seat
+            </h3>
+
+
+            <div class="screen">
+                SCREEN
+            </div>
+
+
+            <div class="seat-legend">
+
+                <div class="legend-item">
+
+                    <div class="legend-box available-box"></div>
+
+                    Available
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <div class="legend-box selected-box"></div>
+
+                    Selected
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <div class="legend-box booked-box"></div>
+
+                    Booked
+
+                </div>
+
+            </div>
+
+
+
+            <div class="seat-layout">
+
+
+                <!-- ROW A -->
+
+                <div class="seat-row">
+
+                    <span class="row-name">
+                        A
+                    </span>
+
+                    <button class="seat booked">
+                        A1
+                    </button>
+
+                    <button class="seat booked">
+                        A2
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        A3
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        A4
+                    </button>
+
+                    <div class="seat-gap"></div>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        A5
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        A6
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        A7
+                    </button>
+
+                    <button class="seat booked">
+                        A8
+                    </button>
+
+                </div>
+
+
+
+                <!-- ROW B -->
+
+                <div class="seat-row">
+
+                    <span class="row-name">
+                        B
+                    </span>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B1
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B2
+                    </button>
+
+                    <button class="seat booked">
+                        B3
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B4
+                    </button>
+
+                    <div class="seat-gap"></div>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B5
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B6
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B7
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        B8
+                    </button>
+
+                </div>
+
+
+
+                <!-- ROW C -->
+
+                <div class="seat-row">
+
+                    <span class="row-name">
+                        C
+                    </span>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C1
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C2
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C3
+                    </button>
+
+                    <button class="seat booked">
+                        C4
+                    </button>
+
+                    <div class="seat-gap"></div>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C5
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C6
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C7
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        C8
+                    </button>
+
+                </div>
+
+
+
+                <!-- ROW D -->
+
+                <div class="seat-row">
+
+                    <span class="row-name">
+                        D
+                    </span>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        D1
+                    </button>
+
+                    <button class="seat booked">
+                        D2
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        D3
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        D4
+                    </button>
+
+                    <div class="seat-gap"></div>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        D5
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        D6
+                    </button>
+
+                    <button class="seat booked">
+                        D7
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        D8
+                    </button>
+
+                </div>
+
+
+
+                <!-- ROW E -->
+
+                <div class="seat-row">
+
+                    <span class="row-name">
+                        E
+                    </span>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E1
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E2
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E3
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E4
+                    </button>
+
+                    <div class="seat-gap"></div>
+
+                    <button class="seat booked">
+                        E5
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E6
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E7
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        E8
+                    </button>
+
+                </div>
+
+
+
+                <!-- ROW F -->
+
+                <div class="seat-row">
+
+                    <span class="row-name">
+                        F
+                    </span>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F1
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F2
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F3
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F4
+                    </button>
+
+                    <div class="seat-gap"></div>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F5
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F6
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F7
+                    </button>
+
+                    <button class="seat"
+                            onclick="selectSeat(this)">
+                        F8
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= PRICE ================= -->
+
+        <div class="price-box">
+
+            <div class="price-line">
+
+                <span>
+                    Ticket Price
+                </span>
+
+                <span>
+                    ₹150
+                </span>
+
+            </div>
+
+
+            <div class="price-line">
+
+                <span>
+                    Convenience Fee
+                </span>
+
+                <span>
+                    ₹20
+                </span>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="price-line total-price">
+
+                <span>
+                    Total
+                </span>
+
+                <span>
+                    ₹170
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= CUSTOMER ================= -->
+
+        <div class="customer-section">
+
+            <h3>
+                👤 Customer Details
+            </h3>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Customer ID
+                    </label>
+
+                    <input
+                            type="text"
+                            id="customerId"
+                            placeholder="Example: C10">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Customer Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="customerName"
+                            placeholder="Enter your name">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                            type="text"
+                            id="customerPhone"
+                            maxlength="10"
+                            placeholder="10 digit mobile number">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <button
+                class="continue-button"
+                onclick="showPayment()">
+
+            Continue to Payment →
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= PAYMENT ================= -->
+
+<div class="container"
+     id="paymentSection">
+
+    <div class="payment-section">
+
+        <h2>
+            💳 Payment Details
+        </h2>
+
+
+        <div class="payment-container">
+
+
+            <!-- LEFT -->
+
+            <div class="payment-methods">
+
+                <h3>
+                    Select Payment Method
+                </h3>
+
+
+                <div class="payment-options">
+
+                    <button
+                            class="payment-option active"
+                            onclick="selectPayment('card', this)">
+
+                        💳 Card
+
+                    </button>
+
+
+                    <button
+                            class="payment-option"
+                            onclick="selectPayment('upi', this)">
+
+                        📱 UPI
+
+                    </button>
+
+
+                    <button
+                            class="payment-option"
+                            onclick="selectPayment('netbanking', this)">
+
+                        🏦 Net Banking
+
+                    </button>
+
+
+                    <button
+                            class="payment-option"
+                            onclick="selectPayment('wallet', this)">
+
+                        👛 Wallet
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- CARD -->
+
+                <div id="cardPayment"
+                     class="payment-form">
+
+                    <h3>
+                        Card Details
+                    </h3>
+
+
+                    <label>
+                        Card Holder Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="cardName"
+                            placeholder="Enter card holder name">
+
+
+                    <label>
+                        Card Number
+                    </label>
+
+                    <input
+                            type="text"
+                            id="cardNumber"
+                            maxlength="19"
+                            placeholder="1234 5678 9012 3456">
+
+
+                    <div class="payment-row">
+
+                        <div>
+
+                            <label>
+                                Expiry Date
+                            </label>
+
+                            <input
+                                    type="text"
+                                    id="expiry"
+                                    maxlength="5"
+                                    placeholder="MM/YY">
+
+                        </div>
+
+
+                        <div>
+
+                            <label>
+                                CVV
+                            </label>
+
+                            <input
+                                    type="password"
+                                    id="cvv"
+                                    maxlength="3"
+                                    placeholder="CVV">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- UPI -->
+
+                <div id="upiPayment"
+                     class="payment-form"
+                     style="display:none;">
+
+                    <h3>
+                        📱 UPI Payment
+                    </h3>
+
+
+                    <label>
+                        UPI ID
+                    </label>
+
+                    <input
+                            type="text"
+                            id="upiId"
+                            placeholder="example@upi">
+
+                </div>
+
+
+
+                <!-- NET BANKING -->
+
+                <div id="netbankingPayment"
+                     class="payment-form"
+                     style="display:none;">
+
+                    <h3>
+                        🏦 Net Banking
+                    </h3>
+
+
+                    <label>
+                        Select Bank
+                    </label>
+
+                    <select id="bank">
+
+                        <option value="">
+                            Select Bank
+                        </option>
+
+                        <option>
+                            State Bank of India
+                        </option>
+
+                        <option>
+                            HDFC Bank
+                        </option>
+
+                        <option>
+                            ICICI Bank
+                        </option>
+
+                        <option>
+                            Axis Bank
+                        </option>
+
+                        <option>
+                            Canara Bank
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- WALLET -->
+
+                <div id="walletPayment"
+                     class="payment-form"
+                     style="display:none;">
+
+                    <h3>
+                        👛 Wallet Payment
+                    </h3>
+
+
+                    <label>
+                        Select Wallet
+                    </label>
+
+                    <select id="wallet">
+
+                        <option value="">
+                            Select Wallet
+                        </option>
+
+                        <option>
+                            PhonePe
+                        </option>
+
+                        <option>
+                            Paytm
+                        </option>
+
+                        <option>
+                            Amazon Pay
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT SUMMARY -->
+
+            <div class="payment-summary">
+
+                <h3>
+                    🎟️ Booking Summary
+                </h3>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Movie
+                    </span>
+
+                    <strong id="paymentMovie">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Theatre
+                    </span>
+
+                    <strong id="paymentTheatre">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Date
+                    </span>
+
+                    <strong id="paymentDate">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Show Time
+                    </span>
+
+                    <strong id="paymentTime">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Seat
+                    </span>
+
+                    <strong id="paymentSeat">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <hr>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Ticket Price
+                    </span>
+
+                    <strong>
+                        ₹150
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Convenience Fee
+                    </span>
+
+                    <strong>
+                        ₹20
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-line total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹170
+                    </strong>
+
+                </div>
+
+
+                <button
+                        class="pay-button"
+                        onclick="makePayment()">
+
+                    🔒 PAY ₹170
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= SUCCESS ================= -->
+
+        <div id="paymentSuccess">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <h2>
+                Payment Successful!
+            </h2>
+
+
+            <p>
+                Your movie ticket has been booked successfully.
+            </p>
+
+
+            <div class="success-ticket">
+
+                <p>
+                    <strong>
+                        Booking ID:
+                    </strong>
+
+                    <span id="successBookingId">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Customer:
+                    </strong>
+
+                    <span id="successCustomer">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Movie:
+                    </strong>
+
+                    <span id="successMovie">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Theatre:
+                    </strong>
+
+                    <span id="successTheatre">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Date:
+                    </strong>
+
+                    <span id="successDate">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Show Time:
+                    </strong>
+
+                    <span id="successTime">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Seat:
+                    </strong>
+
+                    <span id="successSeat">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        Amount Paid:
+                    </strong>
+
+                    ₹170
+                </p>
+
+
+                <p>
+                    <strong>
+                        Payment Status:
+                    </strong>
+
+                    <span class="paid">
+                        PAID ✓
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <h3>
+        🎬 MovieBook
+    </h3>
+
+    <p>
+        Your favourite movies. Your favourite seats.
+        Your perfect movie experience.
+    </p>
+
+    <p style="margin-top:15px;">
+        © 2026 MovieBook
+    </p>
+
+</footer>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+
+    /* ==========================================
+       MOVIE DATA
+    ========================================== */
+
+    const movies = [
+
+        {
+            id: "M01",
+            name: "Leo",
+            language: "Tamil",
+            duration: 135,
+            poster:
+                "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M02",
+            name: "Meesaya Murukku 2",
+            language: "Tamil",
+            duration: 145,
+            poster:
+                "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M03",
+            name: "Mandadi",
+            language: "Tamil",
+            duration: 130,
+            poster:
+                "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M04",
+            name: "Titanic",
+            language: "English",
+            duration: 195,
+            poster:
+                "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M05",
+            name: "Jailer",
+            language: "Tamil",
+            duration: 168,
+            poster:
+                "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M06",
+            name: "Vikram",
+            language: "Tamil",
+            duration: 174,
+            poster:
+                "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M07",
+            name: "Interstellar",
+            language: "English",
+            duration: 169,
+            poster:
+                "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?auto=format&fit=crop&w=600&q=80"
+        },
+
+
+        {
+            id: "M08",
+            name: "Master",
+            language: "Tamil",
+            duration: 179,
+            poster:
+                "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=600&q=80"
+        }
+
+    ];
+
+
+
+    /* ==========================================
+       VARIABLES
+    ========================================== */
+
+    let selectedMovie = null;
+
+    let selectedSeat = null;
+
+
+
+    /* ==========================================
+       LOAD MOVIES
+    ========================================== */
+
+    function loadMovies() {
+
+        const container =
+            document.getElementById("movieContainer");
+
+
+        container.innerHTML = "";
+
+
+        movies.forEach(function(movie) {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "movie-card";
+
+
+            card.onclick =
+                function() {
+
+                    selectMovie(movie);
+
+                };
+
+
+            card.innerHTML = `
+
+            <img
+                class="movie-poster"
+                src="${movie.poster}"
+                alt="${movie.name}">
+
+            <div class="movie-info">
+
+                <span class="language">
+                    ${movie.language}
+                </span>
+
+                <h3>
+                    ${movie.name}
+                </h3>
+
+                <p>
+                    ⏱️ ${movie.duration} minutes
+                </p>
+
+                <p>
+                    🎬 ${movie.language}
+                </p>
+
+                <button
+                    class="book-movie-btn"
+                    onclick="event.stopPropagation(); selectMovieById('${movie.id}')">
+
+                    🎟️ Book Tickets
+
+                </button>
+
+            </div>
+        `;
+
+
+            container.appendChild(card);
+
+        });
+
+    }
+
+
+
+    function selectMovieById(id) {
+
+        const movie =
+            movies.find(function(m) {
+
+                return m.id === id;
+
+            });
+
+
+        selectMovie(movie);
+
+    }
+
+
+
+    function selectMovie(movie) {
+
+        selectedMovie = movie;
+
+        selectedSeat = null;
+
+
+        document.querySelectorAll(".movie-card")
+            .forEach(function(card) {
+
+                card.classList.remove("selected");
+
+            });
+
+
+        document.getElementById("selectedMovieName")
+            .textContent =
+            movie.name;
+
+
+        document.getElementById("selectedMovieDetails")
+            .textContent =
+            movie.language +
+            " | " +
+            movie.duration +
+            " minutes";
+
+
+        document.getElementById("bookingArea")
+            .style.display =
+            "block";
+
+
+        document.getElementById("paymentSection")
+            .style.display =
+            "none";
+
+
+        document.getElementById("bookingArea")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+
+    /* ==========================================
+       THEATRE
+    ========================================== */
+
+    function changeTheatre() {
+
+        const theatre =
+            document.getElementById("theatreSelect").value;
+
+
+        const screen =
+            document.getElementById("screenSelect");
+
+
+        screen.innerHTML = "";
+
+
+        if (theatre === "") {
+
+            screen.innerHTML = `
+            <option value="">
+                Select Screen
+            </option>
+        `;
+
+            return;
+
+        }
+
+
+        if (theatre === "TH01") {
+
+            screen.innerHTML = `
+
+            <option value="SC01">
+                Screen 1
+            </option>
+
+            <option value="SC02">
+                Screen 2
+            </option>
+
+        `;
+
+        }
+
+
+        if (theatre === "TH02") {
+
+            screen.innerHTML = `
+
+            <option value="SC03">
+                Screen 1
+            </option>
+
+        `;
+
+        }
+
+
+        if (theatre === "TH03") {
+
+            screen.innerHTML = `
+
+            <option value="SC04">
+                Screen 1
+            </option>
+
+        `;
+
+        }
+
+
+        if (theatre === "TH04") {
+
+            screen.innerHTML = `
+
+            <option value="SC05">
+                Screen 1
+            </option>
+
+        `;
+
+        }
+
+    }
+
+
+
+    /* ==========================================
+       SEAT SELECTION
+    ========================================== */
+
+    function selectSeat(seat) {
+
+
+        if (seat.classList.contains("booked")) {
+
+            alert(
+                "This seat is already booked."
+            );
+
+            return;
+
+        }
+
+
+        document.querySelectorAll(".seat")
+            .forEach(function(s) {
+
+                s.classList.remove("selected");
+
+            });
+
+
+        seat.classList.add("selected");
+
+
+        selectedSeat =
+            seat.textContent.trim();
+
+    }
+
+
+
+    /* ==========================================
+       PAYMENT SECTION
+    ========================================== */
+
+    function showPayment() {
+
+
+        if (selectedMovie === null) {
+
+            alert(
+                "Please select a movie."
+            );
+
+            return;
+
+        }
+
+
+        const theatre =
+            document.getElementById("theatreSelect").value;
+
+
+        if (theatre === "") {
+
+            alert(
+                "Please select a theatre."
+            );
+
+            return;
+
+        }
+
+
+        const date =
+            document.getElementById("showDate").value;
+
+
+        if (date === "") {
+
+            alert(
+                "Please select a date."
+            );
+
+            return;
+
+        }
+
+
+        const time =
+            document.getElementById("showTime").value;
+
+
+        if (time === "") {
+
+            alert(
+                "Please select a show time."
+            );
+
+            return;
+
+        }
+
+
+        if (selectedSeat === null) {
+
+            alert(
+                "Please select a seat."
+            );
+
+            return;
+
+        }
+
+
+        const customerId =
+            document.getElementById("customerId").value.trim();
+
+
+        const customerName =
+            document.getElementById("customerName").value.trim();
+
+
+        const phone =
+            document.getElementById("customerPhone").value.trim();
+
+
+        if (customerId === "") {
+
+            alert(
+                "Please enter Customer ID."
+            );
+
+            return;
+
+        }
+
+
+        if (customerName === "") {
+
+            alert(
+                "Please enter Customer Name."
+            );
+
+            return;
+
+        }
+
+
+        if (phone.length !== 10) {
+
+            alert(
+                "Please enter a valid 10 digit phone number."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById("paymentMovie")
+            .textContent =
+            selectedMovie.name;
+
+
+        document.getElementById("paymentTheatre")
+            .textContent =
+            getTheatreName(theatre);
+
+
+        document.getElementById("paymentDate")
+            .textContent =
+            date;
+
+
+        document.getElementById("paymentTime")
+            .textContent =
+            formatTime(time);
+
+
+        document.getElementById("paymentSeat")
+            .textContent =
+            selectedSeat;
+
+
+        document.getElementById("paymentSection")
+            .style.display =
+            "block";
+
+
+        document.getElementById("paymentSection")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+
+    /* ==========================================
+       THEATRE NAME
+    ========================================== */
+
+    function getTheatreName(id) {
+
+
+        if (id === "TH01")
+            return "PVR Grand Chennai";
+
+
+        if (id === "TH02")
+            return "INOX Central Madurai";
+
+
+        if (id === "TH03")
+            return "City Cinemas Coimbatore";
+
+
+        if (id === "TH04")
+            return "AGS Cinemas Chennai";
+
+
+        return "-";
+
+    }
+
+
+
+    /* ==========================================
+       TIME FORMAT
+    ========================================== */
+
+    function formatTime(time) {
+
+        const parts =
+            time.split(":");
+
+
+        let hour =
+            parseInt(parts[0]);
+
+
+        const minute =
+            parts[1];
+
+
+        const ampm =
+            hour >= 12 ? "PM" : "AM";
+
+
+        hour =
+            hour % 12;
+
+
+        if (hour === 0)
+            hour = 12;
+
+
+        return hour +
+            ":" +
+            minute +
+            " " +
+            ampm;
+
+    }
+
+
+
+    /* ==========================================
+       PAYMENT METHOD
+    ========================================== */
+
+    function selectPayment(method, button) {
+
+
+        document.querySelectorAll(".payment-option")
+            .forEach(function(btn) {
+
+                btn.classList.remove("active");
+
+            });
+
+
+        button.classList.add("active");
+
+
+        document.getElementById("cardPayment")
+            .style.display = "none";
+
+
+        document.getElementById("upiPayment")
+            .style.display = "none";
+
+
+        document.getElementById("netbankingPayment")
+            .style.display = "none";
+
+
+        document.getElementById("walletPayment")
+            .style.display = "none";
+
+
+        if (method === "card") {
+
+            document.getElementById("cardPayment")
+                .style.display = "block";
+
+        }
+
+
+        if (method === "upi") {
+
+            document.getElementById("upiPayment")
+                .style.display = "block";
+
+        }
+
+
+        if (method === "netbanking") {
+
+            document.getElementById("netbankingPayment")
+                .style.display = "block";
+
+        }
+
+
+        if (method === "wallet") {
+
+            document.getElementById("walletPayment")
+                .style.display = "block";
+
+        }
+
+    }
+
+
+
+    /* ==========================================
+       PAYMENT + BOOKING
+    ========================================== */
+
+    async function makePayment() {
+
+
+        const active =
+            document.querySelector(".payment-option.active");
+
+
+        if (!active) {
+
+            alert(
+                "Please select payment method."
+            );
+
+            return;
+
+        }
+
+
+        const paymentText =
+            active.textContent.trim();
+
+
+
+        /* CARD */
+
+        if (paymentText.includes("Card")) {
+
+            const cardName =
+                document.getElementById("cardName")
+                    .value.trim();
+
+
+            const cardNumber =
+                document.getElementById("cardNumber")
+                    .value.trim();
+
+
+            const expiry =
+                document.getElementById("expiry")
+                    .value.trim();
+
+
+            const cvv =
+                document.getElementById("cvv")
+                    .value.trim();
+
+
+            if (
+                cardName === "" ||
+                cardNumber === "" ||
+                expiry === "" ||
+                cvv === ""
+            ) {
+
+                alert(
+                    "Please enter all card details."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+
+        /* UPI */
+
+        if (paymentText.includes("UPI")) {
+
+            const upi =
+                document.getElementById("upiId")
+                    .value.trim();
+
+
+            if (upi === "") {
+
+                alert(
+                    "Please enter UPI ID."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+
+        /* NET BANKING */
+
+        if (paymentText.includes("Net Banking")) {
+
+            const bank =
+                document.getElementById("bank")
+                    .value;
+
+
+            if (bank === "") {
+
+                alert(
+                    "Please select your bank."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+
+        /* WALLET */
+
+        if (paymentText.includes("Wallet")) {
+
+            const wallet =
+                document.getElementById("wallet")
+                    .value;
+
+
+            if (wallet === "") {
+
+                alert(
+                    "Please select your wallet."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+
+        /* ============================
+           CUSTOMER
+        ============================ */
+
+        const customerId =
+            document.getElementById("customerId")
+                .value.trim();
+
+
+        const customerName =
+            document.getElementById("customerName")
+                .value.trim();
+
+
+        const phone =
+            document.getElementById("customerPhone")
+                .value.trim();
+
+
+
+        try {
+
+
+            /*
+             * First save customer.
+             *
+             * PUT is used because your
+             * CustomerController uses:
+             *
+             * @PutMapping
+             * repository.save(customer)
+             */
+
+            const customerResponse =
+                await fetch(
+                    "/customers",
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            customerId:
+                            customerId,
+
+                            customerName:
+                            customerName,
+
+                            phone:
+                            phone
+
+                        })
+
+                    }
+                );
+
+
+            if (!customerResponse.ok) {
+
+                throw new Error(
+                    "Customer could not be saved"
+                );
+
+            }
+
+
+
+            /* ============================
+               BOOKING ID
+            ============================ */
+
+            const bookingId =
+                "BK" +
+                Date.now();
+
+
+
+            /* ============================
+               SCREEN
+            ============================ */
+
+            const screenId =
+                document.getElementById("screenSelect")
+                    .value;
+
+
+
+            /* ============================
+               DATE
+            ============================ */
+
+            const date =
+                document.getElementById("showDate")
+                    .value;
+
+
+
+            /* ============================
+               SAVE BOOKING
+            ============================ */
+
+            const bookingResponse =
+                await fetch(
+                    "/bookings",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            bookingId:
+                            bookingId,
+
+                            customerId:
+                            customerId,
+
+                            screenId:
+                            screenId,
+
+                            movieId:
+                            selectedMovie.id,
+
+                            seatNo:
+                            selectedSeat,
+
+                            bookingDate:
+                            date
+
+                        })
+
+                    }
+                );
+
+
+
+            if (!bookingResponse.ok) {
+
+                throw new Error(
+                    "Booking could not be saved"
+                );
+
+            }
+
+
+
+            /* ============================
+               SHOW SUCCESS
+            ============================ */
+
+            document.getElementById(
+                "successBookingId"
+            ).textContent =
+                bookingId;
+
+
+            document.getElementById(
+                "successCustomer"
+            ).textContent =
+                customerName;
+
+
+            document.getElementById(
+                "successMovie"
+            ).textContent =
+                selectedMovie.name;
+
+
+            document.getElementById(
+                "successTheatre"
+            ).textContent =
+                getTheatreName(
+                    document.getElementById(
+                        "theatreSelect"
+                    ).value
+                );
+
+
+            document.getElementById(
+                "successDate"
+            ).textContent =
+                date;
+
+
+            document.getElementById(
+                "successTime"
+            ).textContent =
+                formatTime(
+                    document.getElementById(
+                        "showTime"
+                    ).value
+                );
+
+
+            document.getElementById(
+                "successSeat"
+            ).textContent =
+                selectedSeat;
+
+
+            document.getElementById(
+                "paymentSuccess"
+            ).style.display =
+                "block";
+
+
+            document.getElementById(
+                "paymentSuccess"
+            ).scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+
+            /* Make selected seat booked */
+
+            document.querySelectorAll(".seat")
+                .forEach(function(seat) {
+
+                    if (
+                        seat.textContent.trim()
+                        === selectedSeat
+                    ) {
+
+                        seat.classList.remove(
+                            "selected"
+                        );
+
+                        seat.classList.add(
+                            "booked"
+                        );
+
+                        seat.onclick = null;
+
+                    }
+
+                });
+
+
+            selectedSeat = null;
+
+
+
+        }
+        catch (error) {
+
+            console.error(error);
+
+
+            alert(
+                "Payment successful, but booking could not be saved. Please check whether Spring Boot is running."
+            );
+
+        }
+
+    }
+
+
+
+    /* ==========================================
+       SCROLL
+    ========================================== */
+
+    function scrollToMovies() {
+
+        document.getElementById("movies")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+
+
+
+    /* ==========================================
+       PAGE LOAD
+    ========================================== */
+
+    loadMovies();
+
+
+</script>
+
+
+</body>
+
+</html>
