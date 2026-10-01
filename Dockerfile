@@ -6,4 +6,4 @@ COPY target/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar",git add .github/workflows/docker.yml "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
